@@ -492,7 +492,7 @@ in
   environment.variables = {
     # ZANEYOS_VERSION = "2.2";
     # ZANEYOS = "true";
-    QT_QPA_PLATFORMTHEME = "qt5ct";
+    # QT_QPA_PLATFORMTHEME = "qt5ct";
   };
 
   # Extra Portal Configuration
