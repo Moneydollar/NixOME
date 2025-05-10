@@ -61,30 +61,6 @@ in
   };
   
  
-  # Styling Options
-  stylix = {
-    enable = true;
-    image = ../config/wallpapers/Rainnight.jpg;
-    polarity = "dark";
-    opacity.terminal = 0.8;
-    cursor.package = pkgs.bibata-cursors;
-    targets.plymouth.enable = false;
-    
-    cursor.name = "Bibata-Modern-Ice";
-    cursor.size = 24;
-    fonts = {
-      monospace = {
-        package = pkgs.nerd-fonts.jetbrains-mono;
-        name = "JetBrainsMono Nerd Font Mono";
-      };
-      # sizes = {
-      #   applications = 12;
-      #   terminal = 12;
-      #   desktop = 11;
-      #   popups = 12;
-      # };
-    };
-  };
 
   
 
@@ -320,6 +296,7 @@ in
   swww
   swappy
   yad
+  gnome-tweaks
   brightnessctl
   playerctl
   nwg-displays

@@ -18,12 +18,6 @@
 
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    stylix.url = "github:danth/stylix";
-
-    fine-cmdline = {
-      url = "github:VonHeikemen/fine-cmdline.nvim";
-      flake = false;
-    };
   nixcord = {
     url = "github:kaylorben/nixcord";
   };
@@ -48,7 +42,6 @@
           };
           modules = [
             ./common/config.nix
-            inputs.stylix.nixosModules.stylix
             nix-flatpak.nixosModules.nix-flatpak
             {environment.systemPackages = [ fh.packages.x86_64-linux.default];}
             home-manager.nixosModules.home-manager
@@ -62,7 +55,7 @@
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
               home-manager.sharedModules = [
-              inputs.nixcord.homeManagerModules.nixcord
+              inputs.nixcord.homeModules.nixcord
             ];
               home-manager.users.${username} = import ./common/home.nix;
             }

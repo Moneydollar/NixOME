@@ -128,13 +128,12 @@ xdg.configFile = {
 
 
      nixcord = {
-      enable = true; # enable Nixcord. Also installs discord package
+      enable = false; # enable Nixcord. Also installs discord package
       quickCss = "some CSS"; # quickCSS file
       config = {
         useQuickCss = true; # use our quickCSS
         themeLinks = [
           # or use an online theme
-          "https://catppuccin.github.io/discord/dist/catppuccin-mocha-pink.theme.css"
         ];
 
         frameless = false; # set some Vencord options
@@ -188,7 +187,7 @@ xdg.configFile = {
     fish = {
       enable = true;
       shellAliases = {
-        update = "sudo nixos-rebuild switch --flake ~/BlackrockOS/#${host}";
+        update = "sudo nixos-rebuild switch --flake ~/NixOME/#${host}";
         edit = "nvim ~/BlackrockOS/";
         sv = "sudo nvim";
         fr = "nh os switch --hostname ${host} /home/${username}/BlackrockOS";
