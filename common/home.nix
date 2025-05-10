@@ -27,8 +27,7 @@ in
   };
  
  
-  home.file.".face.icon".source = ../config/face.jpg;
-  home.file.".config/face.jpg".source = ../config/face.jpg;
+ 
   home.file.".config/swappy/config".text = ''
     [Default]
     save_dir=/home/${username}/Pictures/Screenshots
@@ -206,7 +205,6 @@ xdg.configFile = {
       
       interactiveShellInit="
       set -g fish_greeting
-      source /home/${username}/.config/fish/themes/Catppuccin-Mocha.theme
       set -gx PATH $HOME/bin $PATH
       set -gx PATH $HOME/.cargo/bin $PATH
       ";
