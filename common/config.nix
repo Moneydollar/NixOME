@@ -519,7 +519,7 @@ in
         layout = "${keyboardLayout}";
         variant = "";
       };
-}
+};
   services = {
 
     
