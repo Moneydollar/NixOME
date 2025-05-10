@@ -15,6 +15,7 @@ in
   imports = [
     ../hosts/${host}/hardware.nix
     ../hosts/${host}/users.nix
+    ../modules/apps/firefox.nix
     ../modules/nvidia-drivers.nix
     ../modules/vm-guest-services.nix
     ../modules/local-hardware-clock.nix
