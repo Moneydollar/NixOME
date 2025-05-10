@@ -78,7 +78,7 @@ in
   qt = {
   enable = true;
 
-  platformTheme.name = lib.mkForce "qt5ct";
+  # platformTheme.name = lib.mkForce "qt5ct";
 };
 
 xdg.configFile = {
