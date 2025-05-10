@@ -76,7 +76,7 @@ in
       monospace = {
         package = pkgs.nerd-fonts.jetbrains-mono;
         name = "JetBrainsMono Nerd Font Mono";
-      }
+      };
       # sizes = {
       #   applications = 12;
       #   terminal = 12;
