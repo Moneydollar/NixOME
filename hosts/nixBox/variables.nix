@@ -1,6 +1,6 @@
 {
   # Git Configuration ( For Pulling Software Repos )
-  gitUsername = "Cash Coffman";
+  gitUsername = "Anastasia Coffman";
   gitEmail = "cashcoffman3@gmail.com";
   extraMonitorSettings="
 monitor=DP-1,1920x1080@60.0,1920x0,1.0

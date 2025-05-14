@@ -15,7 +15,6 @@ in
   imports = [
     ../hosts/${host}/hardware.nix
     ../hosts/${host}/users.nix
-    ../modules/apps/firefox.nix
     ../modules/nvidia-drivers.nix
     ../modules/vm-guest-services.nix
     ../modules/local-hardware-clock.nix
@@ -208,13 +207,6 @@ in
       dedicatedServer.openFirewall = true;
     };
 
-    thunar = {
-      enable = true;
-      plugins = with pkgs.xfce; [
-        thunar-archive-plugin
-        thunar-volman
-      ];
-    };
    
   };
 
@@ -224,6 +216,23 @@ in
   users = {
     mutableUsers = true;
   };
+
+ environment.gnome.excludePackages = with pkgs; [
+   
+    gnome-terminal
+    epiphany
+    gnome-console
+   
+
+    # these should be self explanatory
+    gnome-characters 
+    gnome-maps
+    yelp
+    totem
+    eog
+    gnome-font-viewer gnome-logs 
+    gnome-system-monitor  pkgs.gnome-connections
+  ];
 
   environment.systemPackages = with pkgs; [
 
@@ -247,10 +256,14 @@ in
   macchanger
   iw
   nmap
+  
 
   unzip
   unrar
   file-roller
+  bibata-cursors
+  papirus-icon-theme
+  adw-gtk3
 
   gcc
   clang
@@ -258,18 +271,20 @@ in
   ghc
   rustup
   deno
+  wezterm
   nodejs
   python3
   python312Packages.pip
   pipx
   ninja
+  fzf
   meson
   pkg-config
   uv
   vscode
   geany
   micro
-  neovide
+  neovim
   gedit
   jetbrains-toolbox
   nixfmt-rfc-style
@@ -289,7 +304,6 @@ in
   pulsemixer
 
   wl-clipboard
-  wlr-randr
   swaynotificationcenter
   grim
   grimblast
@@ -297,11 +311,10 @@ in
   swww
   swappy
   yad
+  mission-center
   gnome-tweaks
   brightnessctl
   playerctl
-  nwg-displays
-  wdisplays
   xfce.tumbler
   lxqt.lxqt-policykit
   libsForQt5.qtstyleplugin-kvantum
@@ -328,6 +341,9 @@ in
   steam-devices-udev-rules
 
   chromium
+  imagemagick
+  gnome-extension-manager
+
   rpi-imager
   libreoffice
   gnome-calculator
@@ -460,6 +476,7 @@ in
     packages = with pkgs; [
       noto-fonts-emoji
       noto-fonts-cjk-sans
+      nerd-fonts.jetbrains-mono
       font-awesome
       # Commenting Symbola out to fix install this will need to be fixed or an alternative found.
       # symbola
@@ -572,7 +589,6 @@ in
   # Bluetooth Support
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
-  services.blueman.enable = true;
 
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;

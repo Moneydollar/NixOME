@@ -10,6 +10,7 @@ let
 in
 {
   # Home Manager Settings
+  
   home.username = "${username}";
   home.homeDirectory = "/home/${username}";
   home.sessionPath = [ "$HOME/.local/bin" "~/.local/share/"];
@@ -17,6 +18,7 @@ in
 
   # Import Program Configurations
   imports = [
+    ../modules/apps/firefox.nix
     ../config/fastfetch
   ];
 
@@ -60,6 +62,10 @@ in
     "org/virt-manager/virt-manager/connections" = {
       autoconnect = [ "qemu:///system" ];
       uris = [ "qemu:///system" ];
+    };
+    "org/gnome/desktop/default-applications/terminal" = {
+      exec = "kitty";
+      exec-arg = "-e";
     };
   };
 
@@ -128,7 +134,7 @@ xdg.configFile = {
 
 
      nixcord = {
-      enable = false; # enable Nixcord. Also installs discord package
+      enable = true;#eable Nixcord. Also installs discord package
       quickCss = "some CSS"; # quickCSS file
       config = {
         useQuickCss = true; # use our quickCSS
@@ -143,6 +149,7 @@ xdg.configFile = {
           loadingQuotes.enable = true;
           fakeNitro.enable = true;
           nsfwGateBypass.enable = true;
+          decor.enable = true; 
           ignoreActivities = {
             # Enable a plugin and set some options
             enable = true;
@@ -162,6 +169,7 @@ xdg.configFile = {
         shell = "fish";
         wheel_scroll_min_lines = 1;
         window_padding_width = 4;
+        font-size = 14;
         confirm_os_window_close = 0;
       };
       extraConfig = ''
@@ -194,6 +202,8 @@ xdg.configFile = {
         fu = "nh os switch --hostname ${host} --update /home/${username}/NixOME";
         ncg = "nix-collect-garbage --delete-old && sudo nix-collect-garbage -d && sudo /run/current-system/bin/switch-to-configuration boot";
         v = "nvim";
+        vim = "nvim";
+        vi = "nvim";
         lg = "lazygit";
         cat = "bat";
         ls = "eza --icons";
