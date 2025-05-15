@@ -3,10 +3,13 @@
   pkgs,
   username,
   host,
+  inputs,
   ...
 }:
 let
   inherit (import ../hosts/${host}/variables.nix) gitUsername gitEmail;
+  nvimPlugins = import ../config/neovim/plugins.nix;
+  nvimConfig = import ../config/neovim/extraConfig.nix;
 in
 {
   # Home Manager Settings
@@ -20,8 +23,28 @@ in
   imports = [
     ../modules/apps/firefox.nix
     ../config/fastfetch
+    inputs.nix4nvchad.homeManagerModule
   ];
-
+  
+  programs.nvchad = {
+    enable = true;
+    extraConfig = nvimConfig;
+    extraPlugins = nvimPlugins;
+    extraPackages = with pkgs; [
+      nodePackages.bash-language-server
+      docker-compose-language-service
+      dockerfile-language-server-nodejs
+      emmet-language-server
+      nixd
+      (python3.withPackages(ps: with ps; [
+        python-lsp-server
+        flake8
+      ]))
+    ];
+    
+    hm-activation = true;
+    backup = true;
+  };
   # Place Files Inside Home Directory
   home.file."Pictures/Wallpapers" = {
     source = ../config/wallpapers;

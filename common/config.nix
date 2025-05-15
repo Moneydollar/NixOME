@@ -4,11 +4,11 @@
   host,
   username,
   options,
+  inputs,
   ...
 }:
 let
   inherit (import ../hosts/${host}/variables.nix) keyboardLayout;
-  
   
 in
 {
@@ -213,6 +213,8 @@ in
   # Allow unfree packages for software that does not have a free license.
   nixpkgs.config.allowUnfree = true;
 
+  
+
   users = {
     mutableUsers = true;
   };
@@ -257,6 +259,7 @@ in
   iw
   nmap
   
+  
 
   unzip
   unrar
@@ -284,7 +287,6 @@ in
   vscode
   geany
   micro
-  neovim
   gedit
   jetbrains-toolbox
   nixfmt-rfc-style
@@ -316,11 +318,15 @@ in
   brightnessctl
   playerctl
   xfce.tumbler
+  texliveFull
   lxqt.lxqt-policykit
   libsForQt5.qtstyleplugin-kvantum
   libsForQt5.qt5ct
   kdePackages.kdenlive
   apostrophe
+  texstudio
+  
+  
 
   vlc
   mpv
@@ -334,6 +340,7 @@ in
   gimp
   feh
   imv
+  devpod
 
   wineWowPackages.stable
   winetricks

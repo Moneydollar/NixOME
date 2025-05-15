@@ -9,8 +9,13 @@
 
    
     
-     firefox-addons = {
+    firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix4nvchad = {
+      url = "github:nix-community/nix4nvchad";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   
@@ -24,7 +29,7 @@
   };
 
   outputs =
-    { nixpkgs, home-manager, fh, nix-flatpak, ... }@inputs:
+    { nixpkgs, home-manager, fh, nix-flatpak, nix4nvchad, ... }@inputs:
     let
       system = "x86-64-linux";
       hostInfo = import ./host.nix;
