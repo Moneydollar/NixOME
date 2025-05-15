@@ -293,6 +293,7 @@ in
   nixd
   nh
   manix
+  nil
 
   libvirt
   virt-viewer
@@ -304,6 +305,7 @@ in
   pavucontrol
   angryipscanner
   pulsemixer
+  nixpkgs-fmt
 
   wl-clipboard
   swaynotificationcenter
@@ -641,7 +643,11 @@ in
       options = "--delete-older-than 7d";
     };
   };
-
+  nix.nixPath = [
+  "nixpkgs=${inputs.nixpkgs}"
+  "system=${toString "../"}"  
+  "home-manager=${inputs.home-manager}"
+];
   # Virtualization / Containers
   virtualisation.libvirtd.enable = true;
   

@@ -19,6 +19,11 @@ in
   home.sessionPath = [ "$HOME/.local/bin" "~/.local/share/"];
   home.stateVersion = "24.11";
 
+  home.sessionVariables = {
+    TERMINAL = "kitty";
+  };
+
+
   # Import Program Configurations
   imports = [
     ../modules/apps/firefox.nix
@@ -35,10 +40,11 @@ in
       docker-compose-language-service
       dockerfile-language-server-nodejs
       emmet-language-server
+      nil
       nixd
       (python3.withPackages(ps: with ps; [
-        python-lsp-server
-        flake8
+        pyright
+        clang-tools
       ]))
     ];
     
@@ -91,6 +97,15 @@ in
       exec-arg = "-e";
     };
   };
+  xdg.desktopEntries.nvim = {
+    name = "Neovim";
+    genericName = "Text Editor";
+    exec = "kitty -e nvim";
+    terminal = false;
+    icon = "nvim";
+    type = "Application";
+    categories = [ "Utility" "TextEditor" ];
+};
 
   gtk = {
     iconTheme = {
@@ -191,7 +206,9 @@ xdg.configFile = {
         scrollback_lines = 2000;
         shell = "fish";
         wheel_scroll_min_lines = 1;
-        window_padding_width = 4;
+        window_padding_width = 0;
+        tab_bar_style="hidden";
+        allow_remote_control="yes";
         font-size = 14;
         confirm_os_window_close = 0;
       };

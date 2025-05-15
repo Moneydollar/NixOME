@@ -75,6 +75,5 @@ return {
       require("telescope").setup()
     end,
   },
-  { "wakatime/vim-wakatime", lazy = false },
 }
 ''
