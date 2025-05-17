@@ -1,5 +1,5 @@
 {
-  description = "BlackRockOS";
+  description = "NixFin";
 
   inputs = {
     nix-flatpak.url = "https://flakehub.com/f/gmodena/nix-flatpak/0.5.2.tar.gz";
