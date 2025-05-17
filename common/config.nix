@@ -9,7 +9,7 @@
 }:
 let
   inherit (import ../hosts/${host}/variables.nix) keyboardLayout;
-  
+
 in
 {
   imports = [
@@ -19,8 +19,7 @@ in
     ../modules/vm-guest-services.nix
     ../modules/local-hardware-clock.nix
   ];
-  
- 
+
   boot = {
     # Kernel
     kernelPackages = pkgs.linuxPackages_latest;
@@ -48,7 +47,7 @@ in
       mask = ''\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff'';
       magicOrExtension = ''\x7fELF....AI\x02'';
     };
-    
+
     plymouth = {
       enable = true;
       theme = "rings";
@@ -59,10 +58,6 @@ in
       ];
     };
   };
-  
- 
-
-  
 
   # Extra Module Options
   # drivers.amdgpu.enable = false;
@@ -89,19 +84,18 @@ in
 
   # Randomizes Wi-Fi Card MAC address on boot
   systemd.services.macchanger = {
-     enable = true;
-     description = "Randomize MAC address for wlp9s0";
-     wants = [ "network-pre.target" ];
-     before = [ "network-pre.target" ];
-     after = [ "sys-subsystem-net-devices-wlp9s0.device" ];
-     bindsTo = [ "sys-subsystem-net-devices-wlp9s0.device" ];
+    enable = true;
+    description = "Randomize MAC address for wlp9s0";
+    wants = [ "network-pre.target" ];
+    before = [ "network-pre.target" ];
+    after = [ "sys-subsystem-net-devices-wlp9s0.device" ];
+    bindsTo = [ "sys-subsystem-net-devices-wlp9s0.device" ];
 
-     serviceConfig = {
-       Type = "oneshot";
-       ExecStart = "${pkgs.runtimeShell} -c '${pkgs.iproute2}/bin/ip link set wlp9s0 down && ${pkgs.macchanger}/bin/macchanger -r wlp9s0 && ${pkgs.iproute2}/bin/ip link set wlp9s0 up'";
-     };
-};
-
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.runtimeShell} -c '${pkgs.iproute2}/bin/ip link set wlp9s0 down && ${pkgs.macchanger}/bin/macchanger -r wlp9s0 && ${pkgs.iproute2}/bin/ip link set wlp9s0 up'";
+    };
+  };
 
   # Set your time zone.
   time.timeZone = "America/New_York";
@@ -207,280 +201,279 @@ in
       dedicatedServer.openFirewall = true;
     };
 
-   
   };
 
   # Allow unfree packages for software that does not have a free license.
   nixpkgs.config.allowUnfree = true;
 
-  
-
   users = {
     mutableUsers = true;
   };
 
- environment.gnome.excludePackages = with pkgs; [
-   
+  environment.gnome.excludePackages = with pkgs; [
+
     gnome-terminal
     epiphany
     gnome-console
-   
 
     # these should be self explanatory
-    gnome-characters 
+    gnome-characters
     gnome-maps
     yelp
     totem
     eog
-    gnome-font-viewer gnome-logs 
-    gnome-system-monitor  pkgs.gnome-connections
+    gnome-font-viewer
+    gnome-logs
+    gnome-system-monitor
+    pkgs.gnome-connections
   ];
 
   environment.systemPackages = with pkgs; [
 
-  # 🖥️ Essentials & CLI Tools
-  vim
-  wget
-  killall
-  ripgrep
-  bat
-  eza
-  htop
-  btop
-  ncdu
-  duf
-  tree
-  lshw
-  pciutils
-  lm_sensors
-  iftop
-  socat
-  macchanger
-  iw
-  nmap
-  
-  
+    # 🖥️ Essentials & CLI Tools
+    vim
+    wget
+    killall
+    ripgrep
+    bat
+    eza
+    htop
+    btop
+    ncdu
+    duf
+    tree
+    lshw
+    pciutils
+    lm_sensors
+    iftop
+    socat
+    macchanger
+    rose-pine-gtk-theme
+    iw
+    nmap
 
-  unzip
-  unrar
-  file-roller
-  bibata-cursors
-  papirus-icon-theme
-  adw-gtk3
+    unzip
+    unrar
+    file-roller
+    bibata-cursors
+    papirus-icon-theme
+    adw-gtk3
 
-  gcc
-  clang
-  go
-  ghc
-  rustup
-  deno
-  wezterm
-  nodejs
-  python3
-  python312Packages.pip
-  pipx
-  ninja
-  fzf
-  meson
-  pkg-config
-  uv
-  vscode
-  geany
-  micro
-  gedit
-  jetbrains-toolbox
-  nixfmt-rfc-style
-  nixd
-  nh
-  manix
-  nil
+    gcc
+    clang
+    go
+    ghc
+    rustup
+    deno
+    wezterm
+    nodejs
+    python3
+    python312Packages.pip
+    pipx
+    ninja
+    fzf
+    meson
+    pkg-config
+    uv
+    vscode
+    geany
+    micro
+    gedit
+    jetbrains-toolbox
+    nixfmt-rfc-style
+    nixd
+    nh
+    manix
+    nil
 
-  libvirt
-  virt-viewer
-  distrobox
-  steam-run
-  steam-devices-udev-rules
-  libnotify
-  pulseaudio
-  pavucontrol
-  angryipscanner
-  pulsemixer
-  nixpkgs-fmt
+    libvirt
+    virt-viewer
+    distrobox
+    steam-run
+    steam-devices-udev-rules
+    libnotify
+    pulseaudio
+    pavucontrol
+    angryipscanner
+    pulsemixer
+    nixpkgs-fmt
 
-  wl-clipboard
-  swaynotificationcenter
-  grim
-  grimblast
-  slurp
-  swww
-  swappy
-  yad
-  mission-center
-  gnome-tweaks
-  brightnessctl
-  playerctl
-  xfce.tumbler
-  texliveFull
-  lxqt.lxqt-policykit
-  libsForQt5.qtstyleplugin-kvantum
-  libsForQt5.qt5ct
-  kdePackages.kdenlive
-  apostrophe
-  texstudio
-  
-  
+    wl-clipboard
+    imagemagick
+    swaynotificationcenter
+    grim
+    grimblast
+    slurp
+    swww
+    swappy
+    yad
+    mission-center
+    gnome-tweaks
+    brightnessctl
 
-  vlc
-  mpv
-  ffmpeg
-  yt-dlp
-  ytmdl
-  spotdl
-  cava
-  gnome-podcasts
-  pinta
-  gimp
-  feh
-  imv
-  devpod
+    playerctl
+    xfce.tumbler
+    texliveFull
+    lxqt.lxqt-policykit
+    libsForQt5.qtstyleplugin-kvantum
+    libsForQt5.qt5ct
+    kdePackages.kdenlive
+    apostrophe
+    texstudio
 
-  wineWowPackages.stable
-  winetricks
-  steam-run
-  steam-devices-udev-rules
+    vlc
+    mpv
+    ffmpeg
+    yt-dlp
+    ytmdl
+    spotdl
+    cava
+    gnome-podcasts
+    pinta
+    gimp
+    feh
+    imv
+    devpod
+    clang-tools
 
-  chromium
-  imagemagick
-  gnome-extension-manager
+    wineWowPackages.stable
+    winetricks
+    steam-run
+    steam-devices-udev-rules
 
-  rpi-imager
-  libreoffice
-  gnome-calculator
-  arduino-ide
-  appimage-run
-  gearlever
+    chromium
+    imagemagick
+    gnome-extension-manager
 
-  git
-  lazygit
-  glab
-  gh
+    rpi-imager
+    libreoffice
+    gnome-calculator
+    arduino-ide
+    appimage-run
+    gearlever
 
-  cmatrix
-  lolcat
-  cowsay
-  pipes
+    git
+    lazygit
+    glab
+    gh
 
-  greetd.tuigreet
-  ckb-next
+    cmatrix
+    lolcat
+    cowsay
+    pipes
+
+    greetd.tuigreet
+    ckb-next
   ];
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
-     alsa-lib
-     at-spi2-atk
-     at-spi2-core
-     atk
-     bzip2
-     cairo
-     cups
-     curlWithGnuTls
-     dbus
-     dbus-glib
-     desktop-file-utils
-     e2fsprogs
-     expat
-     flac
-     fontconfig
-     freeglut
-     freetype
-     fribidi
-     fuse
-     fuse3
-     gdk-pixbuf
-     glew110
-     glib
-     gmp
-     gst_all_1.gst-plugins-base
-     gst_all_1.gst-plugins-ugly
-     gst_all_1.gstreamer
-     gtk2
-     harfbuzz
-     icu
-     keyutils.lib
-     libGL
-     libGLU
-     libappindicator-gtk2
-     libcaca
-     libcanberra
-     libcap
-     libclang.lib
-     libdbusmenu
-     libdrm
-     libgcrypt
-     libgpg-error
-     libidn
-     libjack2
-     libjpeg
-     libmikmod
-     libogg
-     libpng12
-     libpulseaudio
-     librsvg
-     libsamplerate
-     libthai
-     libtheora
-     libtiff
-     libudev0-shim
-     libusb1
-     libuuid
-     libvdpau
-     libvorbis
-     libvpx
-     libxcrypt-legacy
-     libxkbcommon
-     libxml2
-     mesa
-     nspr
-     nss
-     openssl
-     p11-kit
-     pango
-     pixman
-     python3
-     speex
-     stdenv.cc.cc
-     tbb
-     udev
-     vulkan-loader
-     wayland
-     xorg.libICE
-     xorg.libSM
-     xorg.libX11
-     xorg.libXScrnSaver
-     xorg.libXcomposite
-     xorg.libXcursor
-     xorg.libXdamage
-     xorg.libXext
-     xorg.libXfixes
-     xorg.libXft
-     xorg.libXi
-     xorg.libXinerama
-     xorg.libXmu
-     xorg.libXrandr
-     xorg.libXrender
-     xorg.libXt
-     xorg.libXtst
-     xorg.libXxf86vm
-     xorg.libpciaccess
-     xorg.libxcb
-     xorg.xcbutil
-     xorg.xcbutilimage
-     xorg.xcbutilkeysyms
-     xorg.xcbutilrenderutil
-     xorg.xcbutilwm
-     xorg.xkeyboardconfig
-     xz
-     zlib
-   ];
+    alsa-lib
+    at-spi2-atk
+    at-spi2-core
+    atk
+    bzip2
+    cairo
+    glibc
+    cups
+    curlWithGnuTls
+    dbus
+    dbus-glib
+    desktop-file-utils
+    e2fsprogs
+    expat
+    flac
+    fontconfig
+    freeglut
+    freetype
+    fribidi
+    fuse
+    fuse3
+    gdk-pixbuf
+    glew110
+    glib
+    gmp
+    gst_all_1.gst-plugins-base
+    gst_all_1.gst-plugins-ugly
+    gst_all_1.gstreamer
+    gtk2
+    harfbuzz
+    icu
+    keyutils.lib
+    libGL
+    libGLU
+    libappindicator-gtk2
+    libcaca
+    libcanberra
+    libcap
+    libclang.lib
+    libdbusmenu
+    libdrm
+    libgcrypt
+    libgpg-error
+    libidn
+    libjack2
+    libjpeg
+    libmikmod
+    libogg
+    libpng12
+    libpulseaudio
+    librsvg
+    libsamplerate
+    libthai
+    libtheora
+    libtiff
+    libudev0-shim
+    libusb1
+    libuuid
+    libvdpau
+    libvorbis
+    libvpx
+    libxcrypt-legacy
+    libxkbcommon
+    libxml2
+    mesa
+    nspr
+    nss
+    openssl
+    p11-kit
+    pango
+    pixman
+    python3
+    speex
+    stdenv.cc.cc
+    tbb
+    udev
+    vulkan-loader
+    wayland
+    xorg.libICE
+    xorg.libSM
+    xorg.libX11
+    xorg.libXScrnSaver
+    xorg.libXcomposite
+    xorg.libXcursor
+    xorg.libXdamage
+    xorg.libXext
+    xorg.libXfixes
+    xorg.libXft
+    xorg.libXi
+    xorg.libXinerama
+    xorg.libXmu
+    xorg.libXrandr
+    xorg.libXrender
+    xorg.libXt
+    xorg.libXtst
+    xorg.libXxf86vm
+    xorg.libpciaccess
+    xorg.libxcb
+    xorg.xcbutil
+    xorg.xcbutilimage
+    xorg.xcbutilkeysyms
+    xorg.xcbutilrenderutil
+    xorg.xcbutilwm
+    xorg.xkeyboardconfig
+    xz
+    zlib
+  ];
   fonts = {
     packages = with pkgs; [
       noto-fonts-emoji
@@ -520,14 +513,12 @@ in
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
     xkb = {
-        layout = "${keyboardLayout}";
-        variant = "";
-      };
-};
+      layout = "${keyboardLayout}";
+      variant = "";
+    };
+  };
   services = {
 
-    
-    
     smartd = {
       enable = false;
       autodetect = true;
@@ -537,18 +528,30 @@ in
     gvfs.enable = true;
     openssh.enable = true;
 
-     # Enable Flatpak
+    # Enable Flatpak
     flatpak.enable = true;
-   
+
     flatpak.update.onActivation = true;
 
     flatpak.packages = [
-    "com.obsproject.Studio"
-    "com.github.tchx84.Flatseal"
-    "org.gnome.FontManager"
-    "sh.ppy.osu"
-    "org.prismlauncher.PrismLauncher"
-    "io.github.dvlv.boxbuddyrs"
+      "ca.desrt.dconf-editor"
+      "com.bitwarden.desktop"
+      "com.github.tchx84.Flatseal"
+      "com.logseq.Logseq"
+      "com.obsproject.Studio"
+      "com.tomjwatson.Emote"
+      "io.github.Foldex.AdwSteamGtk"
+      "io.github.dvlv.boxbuddyrs"
+      "io.github.flattool.Ignition"
+      "io.github.flattool.Warehouse"
+      "io.gitlab.adhami3310.Impression"
+      "me.iepure.devtoolbox"
+      "org.chocolate_doom.ChocolateDoom"
+      "org.gnome.Builder"
+      "org.gnome.Crosswords"
+      "org.gnome.FontManager"
+      "org.gnome.World.Citations"
+      "org.prismlauncher.PrismLauncher"
     ];
 
     printing = {
@@ -644,16 +647,16 @@ in
     };
   };
   nix.nixPath = [
-  "nixpkgs=${inputs.nixpkgs}"
-  "system=${toString "../"}"  
-  "home-manager=${inputs.home-manager}"
-];
+    "nixpkgs=${inputs.nixpkgs}"
+    "system=${toString "../"}"
+    "home-manager=${inputs.home-manager}"
+  ];
   # Virtualization / Containers
   virtualisation.libvirtd.enable = true;
-  
+
   #Gamemode
   programs.gamemode.enable = true;
-  
+
   # OpenGL
   hardware.graphics = {
     enable = true;
@@ -667,16 +670,19 @@ in
   networking = {
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 80 443 ];
+      allowedTCPPorts = [
+        80
+        443
+      ];
     };
-    
-    };
-    # Uncomment to enable wireless support
-    # wireless.enable = true;
-  
+
+  };
+  # Uncomment to enable wireless support
+  # wireless.enable = true;
+
   #CKB-Next
   hardware.ckb-next.enable = true;
-  
+
   # Determines the NixOS release for default settings of stateful data.
   # Recommended to keep it at the version of the first install.
   # For more details, see: https://nixos.org/nixos/options.html#system.stateVersion

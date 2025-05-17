@@ -4,6 +4,7 @@
   username,
   host,
   inputs,
+
   ...
 }:
 let
@@ -13,16 +14,18 @@ let
 in
 {
   # Home Manager Settings
-  
+
   home.username = "${username}";
   home.homeDirectory = "/home/${username}";
-  home.sessionPath = [ "$HOME/.local/bin" "~/.local/share/"];
+  home.sessionPath = [
+    "$HOME/.local/bin"
+    "~/.local/share/"
+  ];
   home.stateVersion = "24.11";
 
   home.sessionVariables = {
     TERMINAL = "kitty";
   };
-
 
   # Import Program Configurations
   imports = [
@@ -30,7 +33,7 @@ in
     ../config/fastfetch
     inputs.nix4nvchad.homeManagerModule
   ];
-  
+
   programs.nvchad = {
     enable = true;
     extraConfig = nvimConfig;
@@ -42,12 +45,14 @@ in
       emmet-language-server
       nil
       nixd
-      (python3.withPackages(ps: with ps; [
-        pyright
-        clang-tools
-      ]))
+      (python3.withPackages (
+        ps: with ps; [
+          pyright
+          clang-tools
+        ]
+      ))
     ];
-    
+
     hm-activation = true;
     backup = true;
   };
@@ -56,9 +61,12 @@ in
     source = ../config/wallpapers;
     recursive = true;
   };
- 
- 
- 
+
+  home.file."/.local/share/themes/rose-pine" = {
+    source = ../config/gtk/rose-pine;
+    recursive = true;
+  };
+
   home.file.".config/swappy/config".text = ''
     [Default]
     save_dir=/home/${username}/Pictures/Screenshots
@@ -96,7 +104,85 @@ in
       exec = "kitty";
       exec-arg = "-e";
     };
+    "org/gnome/shell" = {
+
+      disable-user-extensions = false;
+
+      enabled-extensions = [
+        "appindicatorsupport@rgcjonas.gmail.com"
+        "blur-my-shell@aunetx"
+        "caffeine@patapon.info"
+        "dash-to-dock@micxgx.gmail.com"
+        "just-perfection-desktop@just-perfection"
+        "mediacontrols@cliffniff.github.com"
+        "quick-settings-audio-panel@rayzeq.github.io"
+        "tailscale@joaophi.github.com"
+        "tilingshell@ferrarodomenico.com"
+        "user-theme@gnome-shell-extensions.gcampax.github.com"
+        "weathernorot@somepaulo.github.io"
+      ];
+
+    };
+
+    "org/gnome/settings-daemon/plugins/media-keys" = {
+      custom-keybindings = [
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom5/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom6/"
+      ];
+    };
+
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+      name = "kitty";
+      command = "kitty";
+      binding = "<Super>Return";
+    };
+
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
+      name = "VSCode";
+      command = "code";
+      binding = "<Super>c";
+    };
+
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2" = {
+      name = "Mission Center";
+      command = "missioncenter";
+      binding = "<Shift><Control>Escape";
+    };
+
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3" = {
+      name = "Emote picker";
+      command = "flatpak run com.tomjwatson.Emote";
+      binding = "<Super>period";
+    };
+
+    "org/gnome/desktop/wm/keybindings" = {
+      toggle-fullscreen = [ "<Super>f" ];
+      close = [ "<Super>q" ];
+    };
+
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom5" = {
+      name = "Web Browser";
+      command = "firefox";
+      binding = "<Super>w";
+    };
+
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom6" = {
+      name = "File Explorer";
+      command = "nautilus";
+      binding = "<Super>e";
+    };
+    "org/gnome/desktop/interface" = {
+      gtk-theme = "rose-pine-gtk";
+      icon-theme = "Papirus-Dark";
+      cursor-theme = "Bibata-Modern-Ice";
+      color-scheme = "prefer-dark"; # GTK4 aware apps
+    };
   };
+
   xdg.desktopEntries.nvim = {
     name = "Neovim";
     genericName = "Text Editor";
@@ -104,14 +190,34 @@ in
     terminal = false;
     icon = "nvim";
     type = "Application";
-    categories = [ "Utility" "TextEditor" ];
-};
-
+    categories = [
+      "Utility"
+      "TextEditor"
+    ];
+  };
+  home.sessionVariables.GTK_THEME = "rose-pine-gtk";
   gtk = {
     iconTheme = {
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
     };
+
+    theme = {
+
+      name = "rose-pine-gtk";
+
+      package = pkgs.rose-pine-gtk-theme;
+
+    };
+
+    cursorTheme = {
+
+      name = "Bibata-Modern-Ice";
+
+      package = pkgs.bibata-cursors;
+
+    };
+
     gtk3.extraConfig = {
       gtk-application-prefer-dark-theme = 1;
     };
@@ -120,22 +226,21 @@ in
     };
   };
   qt = {
-  enable = true;
+    enable = true;
 
-  # platformTheme.name = lib.mkForce "qt5ct";
-};
+    # platformTheme.name = lib.mkForce "qt5ct";
+  };
 
-xdg.configFile = {
-  "Kvantum/kvantum.kvconfig".text = ''
-    [General]
-    theme=GraphiteNordDark
-  '';
+  xdg.configFile = {
+    "Kvantum/kvantum.kvconfig".text = ''
+      [General]
+      theme=GraphiteNordDark
+    '';
 
-  "Kvantum/GraphiteNord".source = "${pkgs.graphite-kde-theme}/share/Kvantum/GraphiteNord";
-};
+    "Kvantum/GraphiteNord".source = "${pkgs.graphite-kde-theme}/share/Kvantum/GraphiteNord";
+  };
 
-  # Scripts
-  home.packages = [
+  home.packages = with pkgs; [
     (import ../scripts/emopicker9000.nix { inherit pkgs; })
     (import ../scripts/task-waybar.nix { inherit pkgs; })
     (import ../scripts/squirtle.nix { inherit pkgs; })
@@ -153,10 +258,20 @@ xdg.configFile = {
       inherit pkgs;
       inherit host;
     })
+
+    gnomeExtensions.user-themes
+    gnomeExtensions.dash-to-dock
+    gnomeExtensions.appindicator
+    gnomeExtensions.caffeine
+    gnomeExtensions.just-perfection
+    gnomeExtensions.media-controls
+    gnomeExtensions.quick-settings-audio-panel
+    gnomeExtensions.tailscale-qs
+    gnomeExtensions.tiling-shell
+    gnomeExtensions.weather-or-not
+    gnomeExtensions.blur-my-shell
+
   ];
-
-
-
 
   programs = {
     gh.enable = true;
@@ -166,18 +281,15 @@ xdg.configFile = {
         vim_keys = false;
       };
     };
-  
-   
 
-
-
-     nixcord = {
-      enable = true;#eable Nixcord. Also installs discord package
+    nixcord = {
+      enable = true; # eable Nixcord. Also installs discord package
       quickCss = "some CSS"; # quickCSS file
       config = {
         useQuickCss = true; # use our quickCSS
         themeLinks = [
           # or use an online theme
+          "https://refact0r.github.io/midnight-discord/themes/flavors/midnight-rose-pine.theme.css"
         ];
 
         frameless = false; # set some Vencord options
@@ -185,9 +297,27 @@ xdg.configFile = {
           hideAttachments.enable = true; # Enable a Vencord plugin
           invisibleChat.enable = true;
           loadingQuotes.enable = true;
+          USRBG.enable = true;
+          fakeProfileThemes.enable = true;
+          emoteCloner.enable = true;
+          customRPC.enable = true;
+          betterUploadButton.enable = true;
+          betterSettings.enable = true;
+          alwaysTrust.enable = true;
+          friendsSince.enable = true;
+          vencordToolbox.enable = true;
+          whoReacted.enable = true;
+          youtubeAdblock.enable = true;
+          shikiCodeblocks.enable = true;
+          secretRingToneEnabler.enable = true;
+          reviewDB.enable = true;
+          userMessagesPronouns.enable = true;
+          platformIndicators.enable = true;
+          pictureInPicture.enable = true;
+          moreCommands.enable = true;
           fakeNitro.enable = true;
           nsfwGateBypass.enable = true;
-          decor.enable = true; 
+          decor.enable = true;
           ignoreActivities = {
             # Enable a plugin and set some options
             enable = true;
@@ -198,7 +328,7 @@ xdg.configFile = {
         };
       };
     };
-    
+
     kitty = {
       enable = true;
       package = pkgs.kitty;
@@ -207,8 +337,8 @@ xdg.configFile = {
         shell = "fish";
         wheel_scroll_min_lines = 1;
         window_padding_width = 0;
-        tab_bar_style="hidden";
-        allow_remote_control="yes";
+        tab_bar_style = "hidden";
+        allow_remote_control = "yes";
         font-size = 14;
         confirm_os_window_close = 0;
       };
@@ -231,7 +361,7 @@ xdg.configFile = {
       enableZshIntegration = true;
       enableFishIntegration = true;
     };
-    
+
     fish = {
       enable = true;
       shellAliases = {
@@ -251,8 +381,8 @@ xdg.configFile = {
         la = "eza -lah --icons --grid --group-directories-first";
         ".." = "cd ..";
       };
-      
-      interactiveShellInit="
+
+      interactiveShellInit = "
       set -g fish_greeting
       set -gx PATH $HOME/bin $PATH
       set -gx PATH $HOME/.cargo/bin $PATH
@@ -262,6 +392,5 @@ xdg.configFile = {
 
     home-manager.enable = true;
 
-   
   };
 }
